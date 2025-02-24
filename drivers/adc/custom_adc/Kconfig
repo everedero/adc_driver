@@ -1,0 +1,10 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+config CUSTOM_ADC
+	bool "Custom ADC"
+	default y
+	depends on DT_HAS_ZEPHYR_CUSTOM_ADC_ENABLED
+	select GPIO
+	help
+	  Custom ADC
