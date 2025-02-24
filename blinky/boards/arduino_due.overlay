@@ -1,3 +1,5 @@
+#include <dt-bindings/pinctrl/sam3XXh-pinctrl.h>
+
 / {
 	soc {
 		spi0: spi@40008000 {
@@ -7,7 +9,10 @@
 			reg = <0x40008000 0x4000>;
 			interrupts = <24 0>;
 			clocks = <&pmc PMC_TYPE_PERIPHERAL 21>;
-			status = "disabled";
+			//status = "disabled";
+			status = "okay";
+			pinctrl-0 = <&spi0_default>;
+			pinctrl-names = "default";
 		};
 		spi1: spi@4000c000 {
 			compatible = "atmel,sam-spi";
@@ -17,12 +22,39 @@
 			interrupts = <25 0>;
 			clocks = <&pmc PMC_TYPE_PERIPHERAL 21>;
 			status = "disabled";
+			//status = "okay";
+			pinctrl-0 = <&spi1_default>;
+			pinctrl-names = "default";
+			//cs-gpios = <&piob 14 GPIO_ACTIVE_LOW>>;
 		};
 	};
 };
+
+&twi0 {
+        status = "disabled";
+};
+
+&pinctrl {
+        spi0_default: spi0_default {
+                group1 {
+                        pinmux = //<PA17B_SPI0_SPCK0>,
+                                 <PA25A_SPI0_MISO>,
+                                 <PA26A_SPI0_MOSI>,
+                                 <PA27A_SPI0_SPCK>;
+                };
+        };
+        spi1_default: spi1_default {
+                group1 {
+                        pinmux = //<PA16A_SPI1_SPCK1>,
+                                 <PE28A_SPI1_MISO>,
+                                 <PE29A_SPI1_MOSI>,
+                                 <PE30A_SPI1_SPCK>;
+                };
+        };
+};
+
 
 &tc0 {
 	clk = <4>;
 	status = "okay";
 };
-
