@@ -15,6 +15,7 @@
 			pinctrl-0 = <&spi0_default>;
 			pinctrl-names = "default";
 			//cs-gpios = <&pioa 28 GPIO_ACTIVE_LOW>;
+			cs-gpios = <&pioa 28 1>;
 		};
 	};
 };
@@ -28,6 +29,7 @@
                 group1 {
                         pinmux = <PA25A_SPI0_MISO>,
                                  <PA26A_SPI0_MOSI>,
+                                 <PA28A_SPI0_NPCS0>,
                                  <PA27A_SPI0_SPCK>;
                 };
         };
