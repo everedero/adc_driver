@@ -1,4 +1,4 @@
-#include <dt-bindings/pinctrl/sam3XXh-pinctrl.h>
+#include <dt-bindings/pinctrl/sam3XXe-pinctrl.h>
 
 / {
 	soc {
@@ -14,19 +14,7 @@
 			status = "okay";
 			pinctrl-0 = <&spi0_default>;
 			pinctrl-names = "default";
-		};
-		spi1: spi@4000c000 {
-			compatible = "atmel,sam-spi";
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <0x4000C000 0x4000>;
-			interrupts = <25 0>;
-			clocks = <&pmc PMC_TYPE_PERIPHERAL 25>;
-			// Only available on 217 pins models
-			status = "disabled";
-			pinctrl-0 = <&spi1_default>;
-			pinctrl-names = "default";
-			//cs-gpios = <&piob 14 GPIO_ACTIVE_LOW>>;
+			//cs-gpios = <&pioa 28 GPIO_ACTIVE_LOW>;
 		};
 	};
 };
@@ -41,13 +29,6 @@
                         pinmux = <PA25A_SPI0_MISO>,
                                  <PA26A_SPI0_MOSI>,
                                  <PA27A_SPI0_SPCK>;
-                };
-        };
-        spi1_default: spi1_default {
-                group1 {
-                        pinmux = <PE28A_SPI1_MISO>,
-                                 <PE29A_SPI1_MOSI>,
-                                 <PE30A_SPI1_SPCK>;
                 };
         };
 };
