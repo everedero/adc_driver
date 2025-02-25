@@ -3,39 +3,39 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#define DT_DRV_COMPAT zephyr_example_sensor
+#define DT_DRV_COMPAT zephyr_custom_adc
 
 #include <zephyr/device.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/sensor.h>
 
 #include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(example_sensor, CONFIG_SENSOR_LOG_LEVEL);
+LOG_MODULE_REGISTER(custom_adc, CONFIG_SENSOR_LOG_LEVEL);
 
-struct example_sensor_data {
+struct custom_adc_data {
 	int state;
 };
 
-struct example_sensor_config {
+struct custom_adc_config {
 	struct gpio_dt_spec input;
 };
 
-static int example_sensor_sample_fetch(const struct device *dev,
+static int custom_adc_sample_fetch(const struct device *dev,
 				      enum sensor_channel chan)
 {
-	const struct example_sensor_config *config = dev->config;
-	struct example_sensor_data *data = dev->data;
+	const struct custom_adc_config *config = dev->config;
+	struct custom_adc_data *data = dev->data;
 
 	data->state = gpio_pin_get_dt(&config->input);
 
 	return 0;
 }
 
-static int example_sensor_channel_get(const struct device *dev,
+static int custom_adc_channel_get(const struct device *dev,
 				     enum sensor_channel chan,
 				     struct sensor_value *val)
 {
-	struct example_sensor_data *data = dev->data;
+	struct custom_adc_data *data = dev->data;
 
 	if (chan != SENSOR_CHAN_PROX) {
 		return -ENOTSUP;
@@ -46,14 +46,14 @@ static int example_sensor_channel_get(const struct device *dev,
 	return 0;
 }
 
-static DEVICE_API(sensor, example_sensor_api) = {
-	.sample_fetch = &example_sensor_sample_fetch,
-	.channel_get = &example_sensor_channel_get,
+static DEVICE_API(sensor, custom_adc_api) = {
+	.sample_fetch = &custom_adc_sample_fetch,
+	.channel_get = &custom_adc_channel_get,
 };
 
-static int example_sensor_init(const struct device *dev)
+static int custom_adc_init(const struct device *dev)
 {
-	const struct example_sensor_config *config = dev->config;
+	const struct custom_adc_config *config = dev->config;
 
 	int ret;
 
@@ -72,15 +72,15 @@ static int example_sensor_init(const struct device *dev)
 }
 
 #define EXAMPLE_SENSOR_INIT(i)						       \
-	static struct example_sensor_data example_sensor_data_##i;	       \
+	static struct custom_adc_data example_sensor_data_##i;	       \
 									       \
-	static const struct example_sensor_config example_sensor_config_##i = {\
+	static const struct custom_adc_config example_sensor_config_##i = {\
 		.input = GPIO_DT_SPEC_INST_GET(i, input_gpios),		       \
 	};								       \
 									       \
-	DEVICE_DT_INST_DEFINE(i, example_sensor_init, NULL,		       \
-			      &example_sensor_data_##i,			       \
-			      &example_sensor_config_##i, POST_KERNEL,	       \
-			      CONFIG_SENSOR_INIT_PRIORITY, &example_sensor_api);
+	DEVICE_DT_INST_DEFINE(i, custom_adc_init, NULL,		       \
+			      &custom_adc_data_##i,			       \
+			      &custom_adc_config_##i, POST_KERNEL,	       \
+			      CONFIG_SENSOR_INIT_PRIORITY, &custom_adc_api);
 
 DT_INST_FOREACH_STATUS_OKAY(EXAMPLE_SENSOR_INIT)
