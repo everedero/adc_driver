@@ -22,8 +22,8 @@
 			reg = <0x4000C000 0x4000>;
 			interrupts = <25 0>;
 			clocks = <&pmc PMC_TYPE_PERIPHERAL 25>;
-			//status = "disabled";
-			status = "okay";
+			// Only available on 217 pins models
+			status = "disabled";
 			pinctrl-0 = <&spi1_default>;
 			pinctrl-names = "default";
 			//cs-gpios = <&piob 14 GPIO_ACTIVE_LOW>>;
@@ -38,16 +38,14 @@
 &pinctrl {
         spi0_default: spi0_default {
                 group1 {
-                        pinmux = //<PA17B_SPI0_SPCK0>,
-                                 <PA25A_SPI0_MISO>,
+                        pinmux = <PA25A_SPI0_MISO>,
                                  <PA26A_SPI0_MOSI>,
                                  <PA27A_SPI0_SPCK>;
                 };
         };
         spi1_default: spi1_default {
                 group1 {
-                        pinmux = //<PA16A_SPI1_SPCK1>,
-                                 <PE28A_SPI1_MISO>,
+                        pinmux = <PE28A_SPI1_MISO>,
                                  <PE29A_SPI1_MOSI>,
                                  <PE30A_SPI1_SPCK>;
                 };
