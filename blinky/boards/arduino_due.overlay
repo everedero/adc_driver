@@ -1,27 +1,14 @@
 #include <dt-bindings/pinctrl/sam3XXe-pinctrl.h>
+#include <zephyr/dt-bindings/gpio/gpio.h>
 #include <freq.h>
 
 
-/ {
-	soc {
-		spi0: spi@40008000 {
-			compatible = "atmel,sam-spi";
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <0x40008000 0x4000>;
-			interrupts = <24 0>;
-			// pmc index matches interrupt index
-			clocks = <&pmc PMC_TYPE_PERIPHERAL 24>;
-			//status = "disabled";
-			status = "okay";
-			pinctrl-0 = <&spi0_default>;
-			pinctrl-names = "default";
-			cs-gpios = <&pioa 28 GPIO_ACTIVE_LOW>;
-		};
-	};
-};
-
 &spi0 {
+	status = "okay";
+	pinctrl-0 = <&spi0_default>;
+	pinctrl-names = "default";
+	cs-gpios = <&pioa 28 GPIO_ACTIVE_LOW>;
+
         adcc: adcc@0 {
 		compatible = "zephyr,custom_adc";
 		spi-max-frequency = <DT_FREQ_M(1)>;
@@ -37,18 +24,6 @@
 &twi0 {
         status = "disabled";
 };
-
-&pinctrl {
-        spi0_default: spi0_default {
-                group1 {
-                        pinmux = <PA25A_SPI0_MISO>,
-                                 <PA26A_SPI0_MOSI>,
-                                 <PA28A_SPI0_NPCS0>,
-                                 <PA27A_SPI0_SPCK>;
-                };
-        };
-};
-
 
 &tc0 {
 	clk = <4>;
