@@ -1,4 +1,6 @@
 #include <dt-bindings/pinctrl/sam3XXe-pinctrl.h>
+#include <freq.h>
+
 
 / {
 	soc {
@@ -14,9 +16,21 @@
 			status = "okay";
 			pinctrl-0 = <&spi0_default>;
 			pinctrl-names = "default";
-			//cs-gpios = <&pioa 28 GPIO_ACTIVE_LOW>;
-			cs-gpios = <&pioa 28 1>;
+			cs-gpios = <&pioa 28 GPIO_ACTIVE_LOW>;
 		};
+	};
+};
+
+&spi0 {
+        adcc: adcc@0 {
+		compatible = "zephyr,custom_adc";
+		spi-max-frequency = <DT_FREQ_M(1)>;
+		status = "okay";
+		reg = <0>;
+		status = "disabled";
+		#io-channel-cells = <1>;
+		#address-cells = <1>;
+		#size-cells = <0>;
 	};
 };
 
